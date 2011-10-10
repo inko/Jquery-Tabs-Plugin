@@ -89,9 +89,12 @@
 		// Проход по элементам в которых необходимо отобразить вкладки
 		return this.each(function() {
 			var $tabBlock = $(this);
-			var $switchers = $tabBlock.find( '.' + options.switchTabsClass );
-			var $tabs = $tabBlock.find( '.' + options.tabClass );
-		
+			$('.tabs2 .tab')
+			
+			
+			var $switchers = $tabBlock.find( '.' + options.switchTabsClass ).parent().first().children( '.' + options.switchTabsClass);
+			var $tabs = $tabBlock.find( '.' + options.tabClass ).parent().first().children( '.' + options.tabClass);
+
 			// Найдем первый элемент переключателя
 			// Установим его текущим элементом
 			$switchers.first().addClass( options.currentClass );
@@ -104,9 +107,11 @@
 			$switchers.each( function( index ) {
 				// Установим data аттрибут с его позицией в списке
 				$(this).data( options.tabPositionDataAttribute, index );
-			
+				
 				// Назначим событие по клику
 				$(this).bind( 'click', function(e) {
+					event.preventDefault();
+					
 					// Узнаем позицию выбранного переключателя
 					var position = $(this).data( options.tabPositionDataAttribute );
 				
@@ -123,7 +128,7 @@
 					$tabs.eq(position).addClass(options.currentClass);
 				
 					// Вызовем обработчик события переключение вкладки, если он назначен
-					if( Object.isFunction(options.onTabSwitch)){
+					if( typeof options.onTabSwitch == 'function' ){
 						options.onTabSwitch.call( options.context, $(this), $tabs.eq(position) );
 					}
 				});
